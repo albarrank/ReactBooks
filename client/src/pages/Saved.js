@@ -5,7 +5,7 @@ import API from "../utils/API";
 import DeleteBtn from "../components/DeleteBtn";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
-import { Input, FormBtn } from "../components/Form";
+// import { Input, FormBtn } from "../components/Form";
 
 class Books extends Component {
   state = {
@@ -14,66 +14,14 @@ class Books extends Component {
     toResults: false,
   };
 
-  onChange(event) {
-    console.log(event.target.value);
-
-    const name = event.target.name;
-    const value = event.target.value;
-
-    this.setState({
-      [name]: value
-    });
-  }
-
-  searchBooks = (event) => {
-    event.preventDefault();
-
-    if(this.state.title) {
-      
-      const title = this.state.title.trim();
-
-      API.getNewBooks(title)
-      .then((res) => {
-        console.log(res.data.items);
-
-        this.setState({
-          toResults: true,
-          results: res.data.items
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }
-  };
-
-  insertBook = (book) => {
-     API.saveBook(book)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => console.log(err));
-  };
 
   render() {
     return (
       <Container fluid>
         <Row>
-          <Col size="lg-12 md-6">
-            <Jumbotron>
-              <h1>What Books Should I Read?</h1>
-            </Jumbotron>
-            <form>
-              <Input onChange={this.onChange.bind(this)} name="title" placeholder="Search (required)" />
-              <FormBtn onClick={this.searchBooks} >Submit Book</FormBtn>
-            </form>
-          </Col>
-        </Row>
-
-        <Row>
           <Col size="lg-12 md-6 sm-12">
               <Jumbotron>
-                <h1>Book Results</h1>
+                <h1>Books Saved</h1>
               </Jumbotron>
               {this.state.toResults ? (
                 <List>
@@ -91,16 +39,16 @@ class Books extends Component {
                         {book.volumeInfo.description}
                       </p>
                       <DeleteBtn onClick={() => {
-                        
-                        let someBook = {
+
+                        let saveBook = {
                           link: book.volumeInfo.infoLink,
                           title: book.volumeInfo.title,
-                          author: book.volumeInfo.authors[0],
+                          authors: book.volumeInfo.authors,
                           image: book.volumeInfo.imageLinks.thumbnail,
                           synopsis: book.volumeInfo.description
                         }
                         
-                        this.insertBook(someBook)
+                        this.saveBook(saveBook)
                         }}/>
                     </ListItem>
                   ))}
