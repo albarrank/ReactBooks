@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import  {Link, Redirect } from "react-router-dom";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
 import DeleteBtn from "../components/DeleteBtn";

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import  {Link, Redirect } from "react-router-dom";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
 import DeleteBtn from "../components/DeleteBtn";
@@ -11,9 +10,16 @@ class Books extends Component {
   state = {
     results: [],
     title: "",
-    toResults: false,
+    noResults: false,
   };
 
+  componentDidMount()  {
+      this.getSavedBooks();
+  }
+
+  getSavedBooks = () => {
+      console.log("on mount is working");
+  }
 
   render() {
     return (
@@ -23,7 +29,7 @@ class Books extends Component {
               <Jumbotron>
                 <h1>Books Saved</h1>
               </Jumbotron>
-              {this.state.toResults ? (
+              {this.state.noResults ? (
                 <List>
                   {this.state.results.map(book => (
                     <ListItem key={book.id} >
